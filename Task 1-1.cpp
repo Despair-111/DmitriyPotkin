@@ -12,9 +12,6 @@ using namespace std;
 */
 
 double getA(double x, double y, double z)
-{
-	return pow(x, y / x) - pow(y / x, 1 / 3.0); 
-}
 
 /**
 * \brief Расчёт значения b
@@ -25,9 +22,6 @@ double getA(double x, double y, double z)
 */
 
 double getB(double x, double y, double z)
-{
-	return (y-x) + ((y-z)/(y-x))/(3 + (z*z/5));
-}
 
 int main()
 {
@@ -38,8 +32,18 @@ int main()
     const auto a = getA(x, y, z);
 	const auto b = getB(x, y, z);
 
-    cout << "x=" << x << ", y=" << y << ", z=" << z << "\n";
-	cout << "a=" << a << ", b=" << b;
+    cout << "x = " << x << ", y = " << y << ", z = " << z << "\n";
+	cout << "a = " << a << ", b = " << b;
 
     return 0;
+}
+
+double getA(double x, double y, double z)
+{
+	return pow(x, y / x) - pow(y / x, 1 / 3.0);
+}
+
+double getB(double x, double y, double z)
+{
+	return (y - x) + ((y - z) / (y - x)) / (3 + (z * z / 5));
 }
