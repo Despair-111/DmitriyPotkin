@@ -29,24 +29,26 @@ double F2(const double x, const double a);
 int main()
 {
 	const double a = 2;
+    const double q = 2;
+    const double r = 1;
 	double x;
 	cout << "Enter a variable x = "; cin >> x;
     double result;
 
-    if (x >= 1 and x <= 2)
-    {
-        result = F1(x, a);
-    }
-
-    else if (x > 2)
+     if (x > q)
     {
         result = F2(x, a);
     }
 
-    else if(x < 1)
+    else if(x < r)
     {
         result = 1;
     }
+    else 
+     {
+        result = F1(x, a);
+     }
+     
 
     cout << "y = " << setprecision(15) << result << endl;
     return 0;
