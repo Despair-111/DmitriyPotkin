@@ -13,21 +13,20 @@ using namespace std;
 double GetY(double x);
 
 /*
-*\brief Находит значение суммы элементов ряда
-*\param sum Сумма элементов функционального ряда
-*\param element Элемент функционального ряда
-*\param eps Точность вычисления функционального ряда
-*\param n Порядковый номер элемента ряда
-*\return Сумма элементов ряда
+* \brief Расчет рекуррентной функции
+* \param x Значение x
+* \param index Значение n в форумуле
+* \return Рекуррентное значение
 */
-double GetRowSum(double sum, double element, double eps, double x, int n);
+double Recurrent(const int index, const double x);
 
 /*
-*\brief Находит факториал от числа
-*\param n Входное чилсо
-*\return Факториал числа
+* \brief Расчёт суммы ряда
+* \param x Значение x с шагом 0,1
+* \param eps Точность
+* \return Значение суммы
 */
-int Factorial(int n);
+double GetRowSum(const double x, const double eps);
 
 /*
 *\brief Вход в программу
@@ -36,13 +35,15 @@ int Factorial(int n);
 int main()
 {
     const double a = 0.1, b = 1, h = 0.1, eps = pow(10, -4);
-    double x = 0.0, sum = 0.0, element = 1.0;
-    int n = 0;
-
-    for (x = a; x <= b; x += h)
-    {
-        cout << "Argument value: " << x << " Function value: " << GetY(x) << " Row sum: " << GetRowSum(sum, element, eps, x, n) << endl;
-    }
+	double x = a;
+	
+	while (x <= b + eps)
+	{
+		const double function = GetY(x);
+		const double rowsum = GetRowSum(x, eps);
+		cout << "Argument value: " << x << " Function value: " << function << " Row sum: " << rowsum << endl;
+		x += h;
+	}
     return 0;
 }
 
@@ -51,21 +52,25 @@ double GetY(double x)
     return sin(x);
 }
 
-int Factorial(int n)
+double GetRowSum(const double x, const double eps)
 {
-    if (n == 0) return 1;
-    return n * Factorial(n - 1);
+	auto null = 0.0;
+	auto previous = 0.0;
+	auto current = Recurrent(null, x);
+	auto sum = current;
+	unsigned int index = 1;
+	do
+	{
+		previous = current;
+		current = previous * Recurrent(index, x);
+		sum += current;
+		index++;
+	} while (abs(previous - current) < eps);
+
+	return sum;
 }
 
-
-double GetRowSum(double sum, double element, double eps, double x, int n)
+double Recurrent(const int index, const double x)
 {
-    while (abs(element) > eps)
-    {
-        element = pow(-1, n) * (pow(x, 2 * n + 1) / Factorial(2 * n + 1));
-        n += 1;
-        sum = sum + element;
-    }
-    return sum;
+    return pow(-1, index) * (pow(x, 2 * index + 1) / (2 * index + 1));
 }
-    
